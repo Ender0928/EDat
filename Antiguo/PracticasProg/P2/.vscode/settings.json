@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "xd": "c",
+        "sorted_queue.h": "c",
+        "stdio.h": "c"
+    }
+}
