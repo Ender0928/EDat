@@ -1,5 +1,3 @@
-
-
 /**
  * @file  vertex.h
  * @author Profesores Programación 2
@@ -21,6 +19,7 @@
 #include "types.h"
 #include <stdio.h>
 #include <stdlib.h>
+
 
 /** 
  * @brief Label to characterize the vertex state (to be used in P2)
