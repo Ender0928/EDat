@@ -244,11 +244,6 @@ Status graph_readFromFile (FILE *fin, Graph *g){
 
 for(i=0; i<tam; i++){
   fscanf(fin,"%s %s",id, tag); 
-
-  //Eliminar los 2 valores finales para obtener la salida deseada
-  id[strlen(id)-1]='\0';
-  id[strlen(id)-1]='\0';
-
   strcat(id," ");
   strcat(id,tag);
   strcat(id," ");
@@ -259,9 +254,6 @@ for(i=0; i<tam; i++){
 g->num_vertices=tam;
 
 for(i=0;fscanf(fin,"%ld %ld", &id1, &id2)==2;i++){
-  //Eliminar los 2 valores finales para obtener la salida deseada
-  id1 /= 100;
-  id2 /= 100;
   graph_newEdge(g, id1, id2);
 }
 
