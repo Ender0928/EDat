@@ -16,16 +16,16 @@ Status mergeStacks1 (Stack *sin1, Stack *sin2, Stack *sout){
     int *a, *b;
     Status st = OK;
 
-    if (sin1==NULL||sin2==NULL)
+    if (sin1 == NULL || sin2 == NULL)
     {
         st = ERROR;
     }
 
     do 
     {
-        a=stack_top(sin1);
-        b=stack_top(sin2);
-        if (*a>*b)
+        a = stack_top(sin1);
+        b = stack_top(sin2);
+        if (*a > *b)
         {
            e =stack_pop(sin1);
         }else 
@@ -45,7 +45,7 @@ Status mergeStacks1 (Stack *sin1, Stack *sin2, Stack *sout){
 
     else
     {
-        while (stack_isEmpty(sin1)==FALSE && st == OK)
+        while (stack_isEmpty(sin1) == FALSE && st == OK)
         {
             e=stack_pop(sin1);
             stack_push(sout, (const void*)e);
@@ -58,20 +58,22 @@ Status mergeStacks1 (Stack *sin1, Stack *sin2, Stack *sout){
 int main(int argc, char** argv){
     
     FILE *f1, *f2;
+    Stack *s1 = NULL, *s2 = NULL, *s3 = NULL;
+    Status st=OK;
+    
     int tam;
     float a;
     float *b1, *b2;
-    Stack *s1=NULL, *s2=NULL, *s3=NULL;
-    Status st=OK;
-    if (!argv[1]|| !argv[2])
+    
+    if (!argv[1] || !argv[2])
         return -1;
 
-    if (!(f1=fopen(argv[1], "r")))
+    if (!(f1 = fopen(argv[1], "r")))
     {
         return -1;
     }
 
-    if(!(s1=stack_init()))
+    if(!(s1 = stack_init()))
     {   
         fclose(f1);
         return -1;
@@ -125,7 +127,7 @@ int main(int argc, char** argv){
 
     fclose(f2);
 
-    if (st==OK) {
+    if (st == OK) {
         fprintf(stdout, "Ranking 1:\n");
         stack_print(stdout, s2,float_print);
     }
@@ -137,7 +139,7 @@ int main(int argc, char** argv){
         st = ERROR;
     }
 
-    if (st ==OK)
+    if (st == OK)
         fprintf(stdout, "Joint ranking:\n");
     
     if(stack_print(stdout, s3,float_print)<0){

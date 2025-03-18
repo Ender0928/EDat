@@ -17,32 +17,34 @@ int num_edges;
 };
 
 /* START [Private_functions] */
+
 int _graph_findVertexByTag(const Graph *g/*cambio*/, char *tag);
 Status _graph_insertEdgeFromIndices(Graph *g, const long origIx, const long destIx);
 int _graph_getNumConnections(const Graph *g, int ix);
 long *_graph_getConnections(const Graph *g, int ix);
 void _graph_setVertexState (Graph *g, Label l);
+
 /* END [Private_functions] */
 
 Graph * graph_init(){
     Graph *g;
     int i, j;
 
-  g=malloc(sizeof(Graph));
+  g = malloc(sizeof(Graph));
 
-  if(g==NULL){
+  if(g == NULL){
     fprintf(stderr,"Error al crear el grafo");
     return NULL;
   }
 
-  for(i=0;i<MAX_VTX;i++){
-    g->vertices[i]=NULL;
-        for(j=0;j<MAX_VTX;j++)
-          g->connections[i][j]=FALSE;
+  for(i = 0 ;i < MAX_VTX;i++){
+    g->vertices[i] = NULL;
+        for(j = 0;j < MAX_VTX;j++)
+          g->connections[i][j] = FALSE;
   }
   
-   g->num_edges=0;
-   g->num_vertices=0;
+   g->num_edges = 0;
+   g->num_vertices = 0;
    
   return g;
 }
@@ -53,7 +55,7 @@ void graph_free(Graph *g){
   if(!g)
     fprintf(stderr,"Error al liberar memoria");
   
-  for(i=0;i<MAX_VTX;i++)
+  for(i = 0;i < MAX_VTX;i++)
     vertex_free(g->vertices[i]);
   
   free(g);
@@ -62,13 +64,13 @@ void graph_free(Graph *g){
 Status graph_newVertex(Graph *g, char *desc){
   Vertex *v;
  
-  if((v=vertex_initFromString(desc))==NULL)
+  if((v=vertex_initFromString(desc)) == NULL)
     return ERROR;
   
-  if(graph_contains(g,vertex_getId(v))==TRUE)
+  if(graph_contains(g,vertex_getId(v)) == TRUE)
     return OK;
   
-  g->vertices[g->num_vertices]=v;
+  g->vertices[g->num_vertices] = v;
   g->num_vertices++;
 
   return OK;
@@ -90,7 +92,7 @@ Bool graph_contains(const Graph *g, long id){
     
     
   for (int i = 0; i < g->num_vertices; i++){
-    if (vertex_getId(g->vertices[i])==id)
+    if (vertex_getId(g->vertices[i]) == id)
       return TRUE;
   }
         
@@ -98,7 +100,7 @@ Bool graph_contains(const Graph *g, long id){
 }
 
 int graph_getNumberOfVertices(const Graph *g){
-  if (g==NULL)
+  if (g == NULL)
     return -1;
     
 
@@ -106,7 +108,7 @@ return g->num_vertices;
 }
 
 int graph_getNumberOfEdges(const Graph *g){
-  if (g==NULL)
+  if (g == NULL)
     return -1;
 
 
@@ -114,7 +116,7 @@ return g->num_edges;
 }
 
 Bool graph_connectionExists(const Graph *g, long orig, long dest){
-  if (g==NULL)
+  if (g == NULL)
     return FALSE;
 
 
@@ -126,13 +128,13 @@ Bool graph_connectionExists(const Graph *g, long orig, long dest){
 
 int graph_getNumberOfConnectionsFromId(const Graph *g, long id){
   int i, num, tam;
-  if(g==NULL)
+  if(g == NULL)
     return -1;
 
-  tam=graph_getNumberOfVertices(g);
+  tam = graph_getNumberOfVertices(g);
 
-  for(i=num=0;i<tam; i++){
-    if(graph_connectionExists(g,id,vertex_getId(g->vertices[i]))==TRUE)
+  for(i = num = 0;i < tam; i++){
+    if(graph_connectionExists(g, id, vertex_getId(g->vertices[i]))==TRUE)
       num++;
   }
 
@@ -163,21 +165,24 @@ return tabla;
 }
 
 int graph_getNumberOfConnectionsFromTag(const Graph *g, char *tag){
-  int i, tam, num;
   long orig;
-  if(g==NULL)
+  int i = 0;
+  int num = 0;
+  int tam = 0;
+
+  if(g == NULL)
     return -1;
 
-  tam=graph_getNumberOfVertices(g);
+  tam = graph_getNumberOfVertices(g);
 
-  for(i=0;i<tam;i++){
+  for(i = 0;i < tam;i++){
     if(!strcmp(vertex_getTag(g->vertices[i]),tag)){
-      orig=vertex_getId(g->vertices[i]);
+      orig = vertex_getId(g->vertices[i]);
       break;
     }
   }
 
-  for(i=num=0;i<tam; i++){
+  for(i = 0; i < tam; i++){
     if(graph_connectionExists(g,orig,vertex_getId(g->vertices[i]))==TRUE){
       num++;
     }
@@ -187,27 +192,29 @@ int graph_getNumberOfConnectionsFromTag(const Graph *g, char *tag){
 
 long *graph_getConnectionsFromTag(const Graph *g, char *tag){
   long *out;
-  int i,j, tam;
+  int i = 0;
+  int j = 0;
+  int tam = 0;
   long orig;
 
-  if(g==NULL||tag==NULL)
+  if(g == NULL||tag == NULL)
     return NULL;
 
-  tam=graph_getNumberOfVertices(g);
+  tam = graph_getNumberOfVertices(g);
 
-  if((out=malloc(sizeof(long)*tam))==NULL)
+  if((out = malloc(sizeof(long)*tam)) == NULL)
     return NULL;
 
-  for(i=0;i<tam;i++){
+  for(i = 0; i < tam; i++){
     if(!strcmp(vertex_getTag(g->vertices[i]),tag)){
-      orig=vertex_getId(g->vertices[i]);
+      orig = vertex_getId(g->vertices[i]);
       break;
     }
   }
 
-  for(i=j=0;i<tam; i++){
-    if(graph_connectionExists(g,orig,vertex_getId(g->vertices[i]))==TRUE){
-      out[j]=vertex_getId(g->vertices[i]);
+  for(i = j = 0; i < tam; i++){
+    if(graph_connectionExists(g,orig,vertex_getId(g->vertices[i])) == TRUE){
+      out[j] = vertex_getId(g->vertices[i]);
       j++;
     }
       
@@ -217,33 +224,38 @@ long *graph_getConnectionsFromTag(const Graph *g, char *tag){
 }
 
 int graph_print (FILE *pf, const Graph *g){
-  int i, j, car, tam;
+  int i = 0;
+  int j = 0;
+  int car = 0;
+  int tam = 0;
   
 if(pf==NULL||g==NULL)
   return -1;
 
 tam= graph_getNumberOfVertices(g);
 
-for(i=car=0;i<tam;i++){
-    car+=vertex_print(pf,g->vertices[i]);
-    car+=fprintf(pf,":");
+for(i = car = 0;i < tam;i++){
+    car += vertex_print(pf,g->vertices[i]);
+    car += fprintf(pf,":");
 
-    for(j=0;j<tam;j++){
+    for(j = 0;j < tam;j++){
       if(graph_connectionExists(g, vertex_getId(g->vertices[i]), vertex_getId(g->vertices[j]))){
-        car+=vertex_print(pf,g->vertices[j]);
-        car+=fprintf(pf," ");
+        car += vertex_print(pf,g->vertices[j]);
+        car += fprintf(pf," ");
       }
       
     }
-    car+=fprintf(pf,"\n");
+    car += fprintf(pf,"\n");
   }
 
 return car;
 }
 
 Status graph_readFromFile (FILE *fin, Graph *g){ 
-  int i, tam;
-  long id1=0, id2=0;
+  int i = 0;
+  int tam = 0;
+  long id1 = 0;
+  long id2 = 0;
   char id[120], tag[120];
 
   if(!fin||!g)
@@ -251,7 +263,7 @@ Status graph_readFromFile (FILE *fin, Graph *g){
 
   fscanf(fin,"%d", &tam);
 
-for(i=0; i<tam; i++){
+for(i = 0; i < tam; i++){
   fscanf(fin,"%s %s",id, tag); 
   strcat(id," ");
   strcat(id,tag);
@@ -262,9 +274,9 @@ for(i=0; i<tam; i++){
   }
 }
 
-g->num_vertices=tam;
+g->num_vertices = tam;
 
-for(i=0;fscanf(fin,"%ld %ld", &id1, &id2)==2;i++){
+for(i = 0;fscanf(fin,"%ld %ld", &id1, &id2) == 2;i++){
   graph_newEdge(g, id1, id2);
 }
 
@@ -291,7 +303,7 @@ Status graph_depthSearch(Graph *g, long from_id, long to_id){
   fprintf(stdout, "From Vertex id: %ld\n",from_id);
   fprintf(stdout, "To Vertex id: %ld\n",to_id);
 
-  vf= graph_getvertexfromid( g, from_id);
+  vf= graph_getvertexfromid(g, from_id);
   vt = graph_getvertexfromid(g, to_id);
 
   if (!vf||!vt)
@@ -307,8 +319,9 @@ Status graph_depthSearch(Graph *g, long from_id, long to_id){
 
   do
   {
-    vo=stack_pop(s);
-    if(vo==vt){
+    vo = stack_pop(s);
+
+    if(vo == vt){
       vertex_setState(vo, BLACK);
       vertex_print(stdout, vo);
       fprintf(stdout, "\n");
@@ -316,7 +329,8 @@ Status graph_depthSearch(Graph *g, long from_id, long to_id){
     }
      
     else {
-      if (vertex_getState(vo)==WHITE)
+
+      if (vertex_getState(vo) == WHITE)
       {
       vertex_setState(vo, BLACK);
 
@@ -328,7 +342,7 @@ Status graph_depthSearch(Graph *g, long from_id, long to_id){
       for (int i = 0; i < graph_getNumberOfConnectionsFromId(g, vertex_getId(vo)); i++)
       {
         v = graph_getvertexfromid(g, ids[i]);
-        if (vertex_getState(v)==WHITE)
+        if (vertex_getState(v) == WHITE)
           stack_push(s, v);
       }
 
@@ -336,7 +350,7 @@ Status graph_depthSearch(Graph *g, long from_id, long to_id){
       }
     }
     
-  }while (stack_isEmpty(s)==FALSE && st==OK);
+  }while (stack_isEmpty(s) == FALSE && st == OK);
 
   
   stack_free(s);
@@ -344,18 +358,21 @@ Status graph_depthSearch(Graph *g, long from_id, long to_id){
 }
 
 
-int _graph_findVertexByTag(const Graph *g/*cambio*/, char *tag){
-  int out;
-  int i, tam;
+int _graph_findVertexByTag(const Graph *g, char *tag){
+  int out = 0;
+  int i = 0;
+  int tam = 0;
 
-  if(g==NULL||tag==NULL)
+  if(g == NULL||tag == NULL)
     return -1;
 
-  tam=graph_getNumberOfVertices(g);
+  tam = graph_getNumberOfVertices(g);
+  if (tam == -1)
+    return -1;
 
   for(i=0;i<tam;i++){
     if(!strcmp(vertex_getTag(g->vertices[i]),tag)){
-      out=i;
+      out = i;
       break;
     }
   }
@@ -366,13 +383,13 @@ int _graph_findVertexByTag(const Graph *g/*cambio*/, char *tag){
 Status _graph_insertEdgeFromIndices(Graph *g, const long origIx, const long destIx){
   long v1, v2;
 
-  if(g==NULL||origIx==-1||destIx==-1)
+  if(g == NULL||origIx == -1||destIx == -1)
     return ERROR;
 
-  v1=vertex_getId(g->vertices[origIx]);
-  v2=vertex_getId(g->vertices[origIx]);
+  v1 = vertex_getId(g->vertices[origIx]);
+  v2 = vertex_getId(g->vertices[origIx]);
 
-  if(v1==-1||v2==-1)
+  if(v1 == -1||v2 == -1)
     return ERROR;
 
   if(!(graph_newEdge(g, v1,v2)))
@@ -383,7 +400,9 @@ Status _graph_insertEdgeFromIndices(Graph *g, const long origIx, const long dest
 
 int _graph_getNumConnections(const Graph *g, int ix){
   long v;
-  int tam,i, num;
+  int tam=0;
+  int i = 0;
+  int num = 0;
 
   if(!g|| ix==-1){
     return -1;
@@ -404,27 +423,33 @@ int _graph_getNumConnections(const Graph *g, int ix){
 
 long *_graph_getConnections(const Graph *g, int ix){
   return graph_getConnectionsFromId(g, vertex_getId(g->vertices[ix]));
-  /*****************************************************************/
 }
 
 void _graph_setVertexState (Graph *g, Label l){
-  int i, tam;
+  int i = 0;
+  int tam = 0;
 
-  if(!g||l<0||l>2)
+  if(!g || l<0 || l>2)
     return;
 
-  tam=graph_getNumberOfVertices(g);
+  tam = graph_getNumberOfVertices(g);
+  if (tam == -1)
+    return;
 
-  for(i=0;i<tam;i++){
-    vertex_setState(g->vertices[i], l);
+  for(i = 0;i < tam; i++){
+    if (vertex_setState(g->vertices[i], l) == ERROR){
+      return;
+    }
   }
 
   return ;
 }
 
 Vertex *graph_getvertexfromid(Graph* g, long id){
-  int i, tam;
-  if(!g||id==-1){
+  int i = 0;
+  int tam = 0;
+  
+  if(!g || id == -1){
     return NULL;
   }
 
@@ -432,7 +457,7 @@ Vertex *graph_getvertexfromid(Graph* g, long id){
     return NULL;
   
   for(i=0;i<tam;i++){
-    if(id==vertex_getId(g->vertices[i])){
+    if(id == vertex_getId(g->vertices[i])){
       return g->vertices[i];
     }
   }

@@ -26,8 +26,12 @@ Status mergeStacks (Stack *sin1, Stack *sin2, Stack *sout,P_stack_ele_cmp elem_c
         if (elem_cmp(stack_top(sin1), stack_top(sin2))==1) 
         {
            e =stack_pop(sin1);
-        }else 
+
+        }else{
+
            e =stack_pop(sin2);
+
+        }
         stack_push(sout, e);
         
     }while (stack_isEmpty(sin1)==FALSE && stack_isEmpty(sin2)==FALSE );
@@ -55,14 +59,15 @@ Status mergeStacks (Stack *sin1, Stack *sin2, Stack *sout,P_stack_ele_cmp elem_c
 
 
 int main(int argc, char **argv){
-    int tam, j=0;
     FILE *f1, *f2;
     Stack *s1, *s2, *s3;
     Vertex *v;
-    char tag[120], id[120];
     Status st = OK;
+    
+    int tam = 0;
+    char tag[120], id[120];
 
-    if(!argv[1]||!argv[2]){
+    if(!argv[1] || !argv[2]){
         return -1;
     }
 
@@ -73,7 +78,7 @@ int main(int argc, char **argv){
     if(!(s1=stack_init()))
     {   
         fclose(f1);
-        return -1; //si el codigo ha fallado hasta este punto, no merece la pena seguir ejecutando
+        return -1;
     }
        
     fscanf(f1,"%d", &tam);
@@ -85,15 +90,20 @@ int main(int argc, char **argv){
         strcat(id,tag);
         strcat(id," ");
         strcat(id,"state:0");
-        if(!(v=vertex_initFromString(id)))
-            st=ERROR;
 
+        if(!(v = vertex_initFromString(id)))
+            st = ERROR;
+
+        /* Descomentar este código y el de abajo si se quiere que en la salida del
+         p2_e2 se imprima los index al imprimir los vértices */
+
+        /* int j = 0;
+        
         if(!(vertex_setIndex(v,j))) 
             st=ERROR;
+
         j++;
-        /*En la salida no había index cuando se imprimían los vertices, pero hemos decido incluirlo, ya que estaba hecho del p2_e2. Podíamos haber inicializado el index a -1
-        y en el print poner una condicion que si index == -1, se imprimieran los vertices sin tener en cuenta el espacio para el index (como se hacía en la semana 1), pero hemos decidido 
-        optar por esta opción*/
+        */
 
         if (!stack_push(s1,v)){
             st= ERROR;
@@ -127,12 +137,17 @@ int main(int argc, char **argv){
         strcat(id,tag);
         strcat(id," ");
         strcat(id,"state:0");
+        
         if(!(v=vertex_initFromString(id)))
             st=ERROR;
 
-        if(!(vertex_setIndex(v,j)))
+        /* Descomentar este código si se quiere que en la salida del
+         p2_e2 se imprima los index al imprimir los vértices */
+
+        /* if(!(vertex_setIndex(v,j)))
             st=ERROR;
         j++;
+        */
 
         if (!stack_push(s2,v)){
             st= ERROR;
