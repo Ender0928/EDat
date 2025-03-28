@@ -239,7 +239,7 @@ int list_print(FILE * fp, const List *pl, P_ele_print f) {
   if (!fp || !pl || !f )
     return -1;
 
-  i+=fprintf(fp, "SIZE:%ld\n", list_size(pl));
+  i+=fprintf(fp, "SIZE: %ld\n", list_size(pl));
 
   if(list_isEmpty(pl)==TRUE){
     return i;

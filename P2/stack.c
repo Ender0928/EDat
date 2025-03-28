@@ -4,8 +4,8 @@
 
 struct _Stack {
 void **items;       /*!<Static array of elements*/
-int top;           /*!<index of the top element in the stack*/
-int capacity;      /*!<xcapacity of the stack*/
+int top;            /*!<index of the top element in the stack*/
+int capacity;       /*!<xcapacity of the stack*/
 };
 
 Stack * stack_init (){

@@ -74,9 +74,10 @@ Vertex * vertex_init (){
   if(v==NULL)
     return NULL;
   
-  v->id=0;
-  v->state=WHITE;
+  v->id = 0;
+  v->state = WHITE;
   strcpy(v->tag, "");
+  v->index = 0;
 
   return v;
 
@@ -86,6 +87,7 @@ void vertex_free (void * v){
   v=(Vertex*)v;
 
   free(v);
+  v = NULL;
 }
 
 long vertex_getId (const Vertex * v){
@@ -146,17 +148,19 @@ return 0;
 
 int vertex_print (FILE * pf, const void * v){
 Vertex *n;
-n=(Vertex*)v;
+n = (Vertex*)v;
+if (!n)
+  return 0;
 
-if (n->state==WHITE){
+if (n->state == WHITE){
  return fprintf(pf,"[%ld, %s, 0, %d]",n->id, n->tag, n->index);
 }
 
-else if (n->state==BLACK){
+else if (n->state == BLACK){
  return fprintf(pf,"[%ld, %s, 1, %d]",n->id, n->tag, n->index);
 }
 
-else if (n->state==ERROR_VERTEX)
+else if (n->state == ERROR_VERTEX)
  return 0;
 
 return 0;
@@ -175,7 +179,8 @@ Status vertex_setTag (Vertex * v, const char * tag){
   if (!v) 
     return ERROR;
 
-  strcpy(v->tag,tag);
+  strncpy(v->tag, tag, TAG_LENGTH);
+  v->tag[TAG_LENGTH] = '\0'; 
 
   return OK;
 }
@@ -205,7 +210,7 @@ void * vertex_copy (const void * src){
 
   ver=(Vertex*)src;
 
-  if((trg=vertex_init(trg))==NULL)
+  if((trg=vertex_init()) == NULL)
     return NULL;
 
   vertex_setId(trg, ver->id);

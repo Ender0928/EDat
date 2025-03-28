@@ -1,8 +1,7 @@
 #ifndef _FILE_UTILS_H
 #define _FILE_UTILS_H
-
-#include "types.h"
 #include <stdio.h>
+#include "types.h"
 
 
 /* function type to convert strings to elements of the appropriate type */

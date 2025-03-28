@@ -23,7 +23,7 @@ struct _Delivery {
 Delivery *delivery_init (char *name, char *productName){
 	Delivery *d;
 
-  if (!name || !productName){
+  if ((name==NULL) || (productName==NULL)){
     return NULL;
   }
 
@@ -203,7 +203,7 @@ int delivery_print (FILE *pf, const void *p, p_queue_ele_print f){
 }
 
 
-
+/* Auxiliar funcion */
 Delivery* build_delivery(FILE * pf){
   Delivery *d;
   Vertex *v;
